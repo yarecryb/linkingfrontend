@@ -14,7 +14,7 @@ function MyApp() {
     }, [] );
     
     function postUser(person) {
-        const promise = fetch("Http://localhost:8000/users", {
+        const promise = fetch("http://localhost:8000/users", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -30,11 +30,26 @@ function MyApp() {
         return promise;
     }
 
-    function removeOneCharacter (index) {
-        const updated = characters.filter((character, i) => {
-            return i !== index
+    function deleteUser(id){
+        let link = "http://localhost:8000/users/" + id;
+        const promise = fetch(link, {
+            method: "DELETE",
         });
-        setCharacters(updated);
+        return promise;
+    }
+
+    function removeOneCharacter (index) {
+        let id = characters.at(index).id;
+        deleteUser(id).then((response) =>{
+            if (response.status === 204){
+                const updated = characters.filter((character, i) => {
+                    return i !== index
+                });
+                setCharacters(updated);
+            }else{
+                console.log("Unable to delete user");
+            }
+        });
     }
     
     function updateList(person) { 

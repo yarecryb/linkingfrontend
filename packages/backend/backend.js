@@ -76,10 +76,10 @@ app.delete('/users/:id', (req, res) => {
     if (result !== undefined){
         const index = users['users_list'].indexOf(result);
         users['users_list'].splice(index,1);
-        res.send(result);
+        res.status(204).send(result);
     }
     else{
-        res.send(users);
+        res.status(404);
     }
 });
 
@@ -98,7 +98,7 @@ app.get('/users/:id', (req, res) => {
 });
 
 const addUser = (user) => {
-    user.id = Math.random();
+    user.id = "" + Math.floor((1+Math.random())*100000);
     users['users_list'].push(user);
     return user;
 }
