@@ -77,9 +77,8 @@ app.delete('/users/:id', (req, res) => {
         const index = users['users_list'].indexOf(result);
         users['users_list'].splice(index,1);
         res.status(204).send(result);
-    }
-    else{
-        res.status(404);
+    }else{
+        res.status(404).send('Resource not found');
     }
 });
 
