@@ -55,12 +55,12 @@ const findUserByNameAndJob = (name, job) => {
 app.get('/users', (req, res) => {
     const name = req.query.name;
     const job = req.query.job;
-    if(name != undefined && job != undefined){
+    if(name !== undefined && job !== undefined){
         let result = findUserByNameAndJob(name, job);
         result = {users_list: result};
         res.send(result);
     }
-    else if(name != undefined){
+    else if(name !== undefined){
         let result = findUserByName(name);
         result = {users_list: result};
         res.send(result);
@@ -73,7 +73,7 @@ app.get('/users', (req, res) => {
 app.delete('/users/:id', (req, res) => {
     const id = req.params['id'];
     let result = findUserById(id);
-    if (result != undefined){
+    if (result !== undefined){
         const index = users['users_list'].indexOf(result);
         users['users_list'].splice(index,1);
         res.send(result);
@@ -98,14 +98,15 @@ app.get('/users/:id', (req, res) => {
 });
 
 const addUser = (user) => {
+    user.id = Math.random();
     users['users_list'].push(user);
     return user;
 }
 
 app.post('/users', (req, res) => {
     const userToAdd = req.body;
-    addUser(userToAdd);
-    res.send();
+    let newUser = addUser(userToAdd);
+    res.status(201).send(newUser);
 });
 
 app.listen(port, () => {

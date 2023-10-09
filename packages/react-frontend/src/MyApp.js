@@ -39,7 +39,15 @@ function MyApp() {
     
     function updateList(person) { 
         postUser(person)
-        .then(() => setCharacters([...characters, person]))
+        .then((response) => {
+            if (response.status === 201){
+                response.json().then((data) => {
+                    setCharacters([...characters, data]);
+                })
+            }else{
+                console.log("Unable to add");
+            }
+        })
         .catch((error) => {
             console.log(error);
         })
